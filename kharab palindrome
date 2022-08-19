@@ -1,0 +1,57 @@
+#include<iostream>
+#include<windows.h>
+#include<conio.h>
+using namespace std;
+int main()
+{
+	char arr[30] = { 'p' };
+	int count = 0;
+	bool palindrome = true;
+	while (count > -1)
+	{
+		arr[0] = { 'p' };
+		palindrome = true;
+		count = 0;
+		int end = 0;
+		char enter;
+		cout << "\nEnter a string:";
+		for (int i = 0; i < 30; i++)
+		{
+			enter = _getche();
+			if (enter == 27)
+				return 0;
+			else if (enter == '\r')
+				break;
+			else
+			{
+				if (enter >= 97 && enter <= 122)
+					arr[i] = enter;
+			}
+		}
+
+		while (arr[count] != 0)
+		{
+			count++;
+		}
+		end = count - 1;
+		for (int i = 0; i <= end; i++, end--)
+		{
+			palindrome = true;
+
+			if (arr[i] != arr[end])
+			{
+				palindrome = false;
+				break;
+			}
+
+		}
+		if (arr[0] != 'p')
+		{
+			if (palindrome)
+				cout << "\nPalindrome";
+			else
+				cout << "\nNot a palindrome.";
+		}
+	}
+
+}
