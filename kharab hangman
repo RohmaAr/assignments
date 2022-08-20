@@ -1,0 +1,79 @@
+#include<iostream>
+#include<fstream>
+#include<ctime>
+#include<cstdlib>
+using namespace std;
+void hangman();
+int main()
+{
+	hangman();
+}
+void hangman()
+{
+	char words[10][15];
+	int i = 0;
+	int pickword = 0;
+	srand(time(0));
+	ifstream fin;
+	fin.open("my word list.txt");
+	if (fin.is_open())
+	{
+		for(int i=0;i<10;i++)
+			fin >> words[i];
+		fin.close();
+		pickword = rand() % 10;
+		int count = 0;
+		while (words[pickword][count] != 0)
+			count++;
+		cout << "HANGMAN\nGuess the word. 7 mistakes and you're out!\n\n";
+		for (int i = 0; i < count; i++)
+			cout << "__ ";
+		char* right = new char[count];
+		for (int i = 0; i < count; i++)
+			right[i] = '-';
+		int wrong = 7, rightguesses=0;
+		bool exists = false;
+		char guess;
+		while (wrong != 0)
+		{
+			exists = false;
+			cin >> guess;
+			system("cls");
+			cout << "HANGMAN\nGuess the word.\n\n";
+
+			if (guess >= 'a' && guess <= 'z')
+			{
+				for (int i = 0; i < count; i++)
+				{
+					if (guess == words[pickword][i])
+					{
+						exists = true;
+						right[i] = guess;
+						rightguesses++;
+					}
+					if (right[i] != '-')
+				      	cout << right[i];
+					else
+						cout << "__ ";
+					if (!exists && i == count - 1)
+					{
+							wrong--;
+							cout << "\nOops!..." << wrong << " more mistakes left.";
+					}
+				}
+			}
+			else
+				cout << "Enter small letters only please.";
+			if (rightguesses == count)
+			{
+				cout << "\nYOU WIN!!";
+				break;
+			}
+		}
+		if (wrong == 0)
+			cout << "GAME OVER.";
+	}
+	else
+		cout << "Some error has occured.";
+	
+}
