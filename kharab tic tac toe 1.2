@@ -1,0 +1,189 @@
+#include<iostream>
+using namespace std;
+int ind(char, int&, int&);
+void output(char arr[][3]);
+
+int main()
+{
+	int count = 0, row, col, check;
+	int one = 1;
+	char input = 'l', index;
+	char first, second;
+	bool win = false;
+	char arr[3][3] = { {' ',' ',' '},{' ',' ',' '},{' ',' ',' '} };
+
+	for (int i = 0; i < 9; )
+	{
+		cout << i + 1 << " |";
+		i++;
+		if (i % 3 == 0)
+			cout << "\n___________" << endl;
+	}
+
+	cout << "Who wants to go first? X or O:";
+	while (input != 'X' && input != 'O')
+	{
+		cin >> input;
+		if (input != 'X' && input != 'O')
+			cout << "Enter either X or O:";
+	}
+
+	first = input;
+	if (first == 'X')
+		second = 'O';
+	else
+		second = 'X';
+
+	while (count < 9)
+	{
+		if (count % 2 == 0)
+		{
+			cout << "\nPick an empty spot player " << first << ":";
+			cin >> index;
+			check = ind(index, row, col);
+			if (check != -1)
+			{
+				if (arr[row][col] == ' ')
+				{
+					arr[row][col] = first;
+					output(arr);
+
+				}
+				else
+				{
+					cout << "\nThis block is already full.";
+					count--;
+				}
+
+			}
+			else
+			{
+
+				cout << "\nWrong index! Try again:";
+				count--;
+
+			}
+		}
+		else
+		{
+			cout << "Pick an empty spot player " << second << ":";
+			cin >> index;
+			check = ind(index, row, col);
+
+			if (check != -1)
+			{
+				if (arr[row][col] == ' ')
+				{
+					arr[row][col] = second;
+					output(arr);
+
+				}
+				else
+				{
+					cout << "\nThis block is already full.";
+					count--;
+				}
+			}
+			else
+			{
+				cout << "\nWrong index! Try picking an empty spot from the grid from 1-9:";
+				count--;
+			}
+		}
+
+		for (int i = 0; i < 3; i++)
+		{
+			if (arr[i][one] != ' ')
+			{
+				if (arr[i][one] == arr[i][one - 1] && arr[i][one] == arr[i][one + 1])
+				{
+					win = true;
+					cout << "\nPlayer " << arr[i][one] << " has won";
+					break;
+				}
+			}
+			else if (arr[one][i] != ' ')
+			{
+				if (arr[one][i] == arr[one - 1][i] && arr[one][i] == arr[one + 1][i])
+				{
+					win = true;
+					cout << "\nPlayer " << arr[one][i] << " has won";
+					break;
+				}
+			}
+		}
+		if (arr[one][one] != ' ')
+		{
+			if (arr[one][one] == arr[one + 1][one + 1] && arr[one][one] == arr[one - 1][one - 1])
+			{
+				win = true;
+				cout << "\nPlayer " << arr[one][one] << " has won";
+				break;
+			}
+			else if (arr[one][one] == arr[one - 1][one + 1] && arr[one][one] == arr[one + 1][one - 1])
+			{
+				win = true;
+				cout << "\nPlayer " << arr[one][one] << " has won";
+				break;
+			}
+		}
+		if (win)
+			break;
+		count++;
+	}
+	if (!win)
+		cout << "It's a tie.";
+	return 0;
+
+}
+int ind(char index, int& row, int& col)
+{
+	if (index < 58 && index >48)
+	{
+		switch (index)
+		{
+		case 49: row = 0, col = 0;
+			break;
+		case 50: row = 0, col = 1;
+			break;
+		case 51: row = 0, col = 2;
+			break;
+		case 52: row = 1, col = 0;
+			break;
+		case 53: row = 1, col = 1;
+			break;
+		case 54: row = 1, col = 2;
+			break;
+		case 55: row = 2, col = 0;
+			break;
+		case 56: row = 2, col = 1;
+			break;
+		case 57: row = 2, col = 2;
+			break;
+		}
+		return 1;
+	}
+	else
+		return -1;
+}
+void output(char arr[][3])
+{
+
+	system("cls");
+	for (int i = 0; i < 9; )
+	{
+		cout << i + 1 << " |";
+		i++;
+		if (i % 3 == 0)
+			cout << "\n___________" << endl;
+	}
+
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			cout << arr[i][j] << " |";
+		}
+		cout << "\n__________" << endl;
+	}
+}
