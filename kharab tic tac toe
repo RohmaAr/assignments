@@ -1,0 +1,78 @@
+#include<iostream>
+using namespace std;
+void output(char arr[][3], int);
+bool check(char[][3], int);
+int main()
+{
+	char arr[3][3] = { {'*','*','*'},{'*','*','*'},{'*','*','*'} };
+	int row, col,count=0;
+	bool win = false;
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+			cout <<" "<< arr[i][j] << " |";
+		cout <<endl;
+	}
+	while (count < 9)
+	{
+		cin >> row >> col;
+		system("cls");
+		if (count % 2 == 0)
+			arr[row][col] = 'X';
+		else
+			arr[row][col] = 'O';
+		output(arr, 3);
+		win=check(arr, 3);
+		if (win)
+			break;
+	}
+	return 0;
+}
+void output(char arr[][3], int rows)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+			cout<<" " << arr[i][j] << " |";
+		cout << endl;
+	}
+}
+bool check(char arr[][3], int row)
+{
+	int zero;
+	for (int i = 0; i < 3; i++)
+	{
+		zero = 0;
+			cout << zero << endl;
+			if (arr[i][zero] != '*' && arr[zero][i] != '*')
+			{
+				if (arr[zero][i] == arr[zero++][i] && arr[zero][i] == arr[zero++][i])
+				{
+					cout << "\nPlayer " << arr[zero][i] << "has won" << zero<<i;
+					return true;
+				}
+				else if (arr[i][zero] == arr[i][zero--] && arr[i][zero] == arr[i][zero--])
+				{
+					cout << "\nPlayer " << arr[i][zero] << " has won" << zero;
+					return true;
+				}
+			}
+			else
+			{
+				if (arr[zero++][zero] != '*')
+				{
+					if (arr[zero][zero] == arr[zero+1][zero+1] && arr[zero+1][zero+1] == arr[zero-1][zero-1])
+					{
+						cout << "\nPlayer " << arr[zero][zero] << " has won";
+						return true;
+					}
+					if (arr[zero][zero] == arr[0][zero++] && arr[0][zero] == arr[zero][0])
+					{
+						cout << "\nPlayer " << arr[zero][0] << " has won";
+						return true;
+					}
+				}
+			}
+	}
+	return false;
+}
